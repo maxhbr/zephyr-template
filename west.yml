@@ -11,4 +11,4 @@ manifest:
       clone-depth: 1
       import: true
   self:
-    path: zephyr-devcontainer-playground
+    path: zephyr-template

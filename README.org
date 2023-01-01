@@ -1,0 +1,5 @@
+* A template for Zephyr projects with devcontainer support
+
+** TODO change project name in:
+*** TODO _CMakeLists.txt_ in project
+*** TODO _west.yml_ in manifest.self.path
