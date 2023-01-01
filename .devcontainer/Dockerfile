@@ -1,4 +1,4 @@
-FROM ghcr.io/zephyrproject-rtos/ci:latest
+FROM ghcr.io/zephyrproject-rtos/ci:v0.24.6
 
 ARG USERNAME=user
 ARG USER_UID=1000

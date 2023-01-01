@@ -4,6 +4,10 @@
 ** TODO change project name in:
 *** TODO _CMakeLists.txt_ in project
 *** TODO _west.yml_ in manifest.self.path
+** TODO change Zephyr versions in
+*** TODO _west.yml_ 
+*** TODO _.github/workflows/build.yaml_
+*** TODO _.devcontainer/Dockerfile_
 ** TODO if necessary change _/dev/bus/usb_ mount to _/dev_
 #+END_COMMENT
 
