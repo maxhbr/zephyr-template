@@ -1,31 +1,14 @@
 {
-	"name": "Zephy/West devcontainer",
-
-	// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
+	"name": "Zephy devcontainer",
 	"build": {
 		"dockerfile": "Dockerfile",
-		// [Optional] You can use build args to set options. e.g. 'VARIANT' below affects the image in the Dockerfile
 		"args": { }
 	},
-
-	// Set *default* container specific settings.json values on container create.
 	"settings": {},
-
-	// Add the IDs of extensions you want installed when the container is created.
 	"extensions": [],
-
-	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
-
-	// Use 'postCreateCommand' to run commands after the container is created.
 	"postCreateCommand": "west init ; west update ; west zephyr-export",
-
-	// Uncomment to use Docker from inside the container. See https://aka.ms/vscode-remote/samples/docker-from-docker.
-	 "mounts": [ "source=/var/run/docker.sock,target=/var/run/docker.sock,type=bind" ],
-
-	// Uncomment when using a ptrace-based debugger like C++, Go, and Rust
-	 "runArgs": [  "-i"], //, "--device=/dev/ttyACM0" ],
-
-	// Comment out to connect as root instead. To add a non-root user, see: https://aka.ms/vscode-remote/containers/non-root.
+	"mounts": [ "source=/dev,target=/dev,type=bind" ],
+	"runArgs": [  "-i", "--privileged" ], // "--device=/dev/ttyACM0" ],
 	"remoteUser": "user"
 }
