@@ -14,5 +14,5 @@
 
 ** Usage
 #+BEGIN_SRC bash
-$ west build -p always -b nucleo_wb55rg -t flash .
+$ west build -p always -t flash .
 #+END_SRC
