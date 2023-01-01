@@ -8,6 +8,7 @@
 *** TODO _west.yml_ 
 *** TODO _.github/workflows/build.yaml_
 *** TODO _.devcontainer/Dockerfile_
+** TODO change BOARD in _CMakeLists.txt_
 ** TODO if necessary change _/dev/bus/usb_ mount to _/dev_
 #+END_COMMENT
 

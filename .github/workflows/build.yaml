@@ -14,7 +14,6 @@ jobs:
     env:
       ZEPHYR_SDK_INSTALL_DIR: /opt/toolchains/zephyr-sdk-0.15.2
       LLVM_TOOLCHAIN_PATH: /usr/lib/llvm-15
-      BASE_REF: ${{ github.base_ref }}
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -28,10 +27,7 @@ jobs:
           echo "$HOME/.local/bin" >> $GITHUB_PATH
           git config --global user.email "bot@zephyrproject.org"
           git config --global user.name "Zephyr Bot"
-          rm -fr ".git/rebase-apply"
           git config --global --add safe.directory "$(readlink -f .)"
-          git rebase origin/${BASE_REF}
-          git log  --pretty=oneline | head -n 10
           west init -l . || true
           west config --global update.narrow true
           west update
