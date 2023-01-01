@@ -6,7 +6,8 @@ on:
       - main
 
 jobs:
-  clang-build:
+  build:
+    runs-on: ubuntu-latest
     container:
       image: ghcr.io/zephyrproject-rtos/ci:v0.24.6
       options: '--entrypoint /bin/bash'
