@@ -25,8 +25,8 @@ jobs:
       - name: Environment Setup
         run: |
           echo "$HOME/.local/bin" >> $GITHUB_PATH
-          git config --global user.email "bot@zephyrproject.org"
-          git config --global user.name "Zephyr Bot"
+          git config --global user.email "bot@maxhbr.de"
+          git config --global user.name "Maxhbr Bot"
           git config --global --add safe.directory "$(readlink -f .)"
           west init -l . || true
           west config --global update.narrow true
