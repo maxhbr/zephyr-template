@@ -32,7 +32,7 @@ main() {
     set +a
 
     if [[ $# -gt 0 && "$1" == "--only-native-init" ]]; then
-        [[ -d ".west" ]] || west init -l "."
+        [[ -d ".west" ]] || west init
         west update #-f always
         west config -l
         west zephyr-export
@@ -45,7 +45,7 @@ main() {
             oci_build "${tag}" "${context}"
         fi
 
-        [[ -d ".west" ]] || oci_west "${tag}" "${repo}" "${path}" init -l "."
+        [[ -d ".west" ]] || oci_west "${tag}" "${repo}" "${path}" init
         oci_west "${tag}" "${repo}" "${path}" \
             update #-f always
         oci_west "${tag}" "${repo}" "${path}" \
