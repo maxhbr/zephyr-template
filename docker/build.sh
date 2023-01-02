@@ -4,42 +4,56 @@ set -euo pipefail
 oci_cmd=docker
 
 oci_build() {
+    local tag="$1"; shift
+    local context="$1"; shift
     $oci_cmd build "$context" --tag "$tag"
 }
 
 oci_west() (
+    local tag="$1"; shift
+    local repo="$1"; shift
+    local path="$1"; shift
+
     set -x
     $oci_cmd run --rm -it \
         --user user:user \
         -v "${repo}:/workspaces/${path}" \
         --workdir="/workspaces/${path}" \
-        -e path="${path}" \
+		--env-file "${repo}/.env" \
         "$tag" \
         west $@
 )
 
 main() {
+    local context="$( cd -- "$( dirname -- "$(readlink -f "${BASH_SOURCE[0]}")" )" &> /dev/null && pwd )"
+    local repo="$(readlink -f "${context}/..")"
+    set -a
+    source "${repo}/.env"
+    set +a
+
     if [[ $# -gt 0 && "$1" == "--only-native-init" ]]; then
-        [[ -d ".west" ]] || west init -l "$path"
+        [[ -d ".west" ]] || west init -l "."
         west update #-f always
         west config -l
         west zephyr-export
     else
-        context="$( cd -- "$( dirname -- "$(readlink -f "${BASH_SOURCE[0]}")" )" &> /dev/null && pwd )"
-        repo="$(readlink -f "${context}/..")"
-        path="$(cat "$repo/west.yml" | yq -r '.manifest.self.path')"
-        tag="maxhbr/${path}-zephyrbuilder"
+        local path="$(cat "${repo}/west.yml" | yq -r '.manifest.self.path')"
+        local tag="maxhbr/${path}-zephyrbuilder"
 
         if [[ $# -gt 0 && "$1" == "--build" ]]; then
             shift
-            oci_build
+            oci_build "${tag}" "${context}"
         fi
 
-        [[ -d ".west" ]] || oci_west init -l "$path"
-        oci_west update #-f always
-        oci_west config -l
-        oci_west zephyr-export
-        oci_west build \
+        [[ -d ".west" ]] || oci_west init -l "."
+        oci_west "${tag}" "${repo}" "${path}" \
+            update #-f always
+        oci_west "${tag}" "${repo}" "${path}" \
+            config -l
+        oci_west "${tag}" "${repo}" "${path}" \
+            zephyr-export
+        oci_west "${tag}" "${repo}" "${path}" \
+            build \
             -s "." \
             -p always \
             -d ./build
