@@ -3,11 +3,6 @@ set -euo pipefail
 
 oci_cmd=docker
 
-context="$( cd -- "$( dirname -- "$(readlink -f "${BASH_SOURCE[0]}")" )" &> /dev/null && pwd )"
-repo="$(readlink -f "${context}/..")"
-path="$(cat "$repo/west.yml" | yq -r '.manifest.self.path')"
-tag="maxhbr/${path}-zephyrbuilder"
-
 oci_build() {
     $oci_cmd build "$context" --tag "$tag"
 }
@@ -23,16 +18,32 @@ oci_west() (
         west $@
 )
 
-if [[ $# -gt 0 && "$1" == "build" ]]; then
-    shift
-    oci_build
-fi
+main() {
+    if [[ $# -gt 0 && "$1" == "--only-native-init" ]]; then
+        [[ -d ".west" ]] || west init -l "$path"
+        west update #-f always
+        west config -l
+        west zephyr-export
+    else
+        context="$( cd -- "$( dirname -- "$(readlink -f "${BASH_SOURCE[0]}")" )" &> /dev/null && pwd )"
+        repo="$(readlink -f "${context}/..")"
+        path="$(cat "$repo/west.yml" | yq -r '.manifest.self.path')"
+        tag="maxhbr/${path}-zephyrbuilder"
 
-[[ -d ".west" ]] || oci_west init -l "$path"
-oci_west update #-f always
-oci_west config -l
-oci_west zephyr-export
-oci_west build \
-    -s "." \
-    -p always \
-    -d ./build
+        if [[ $# -gt 0 && "$1" == "--build" ]]; then
+            shift
+            oci_build
+        fi
+
+        [[ -d ".west" ]] || oci_west init -l "$path"
+        oci_west update #-f always
+        oci_west config -l
+        oci_west zephyr-export
+        oci_west build \
+            -s "." \
+            -p always \
+            -d ./build
+    fi
+}
+
+main $@
