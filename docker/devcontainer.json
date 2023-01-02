@@ -4,6 +4,22 @@
 		"dockerfile": "Dockerfile",
 		"args": {}
 	},
+	"workspaceMount": "source=${localWorkspaceFolder},target=${localWorkspaceFolder},type=bind",
+	"workspaceFolder": "${localWorkspaceFolder}",
+	"remoteEnv": {
+		"ZEPHYR_BASE": "${localWorkspaceFolder}/zephyr"
+	},
+	// "forwardPorts": [],
+	"mounts": [
+		"source=/dev/bus/usb,target=/dev/bus/usb,type=bind"
+		// "source=/dev,target=/dev,type=bind"
+	],
+	"runArgs": [
+		"-i",
+		// "--device=/dev/ttyACM0",
+		"--privileged"
+	],
+	"remoteUser": "user",
 	"settings": {
 		"editor.formatOnSave": true,
 	},
@@ -22,17 +38,5 @@
 		"ms-vscode.cpptools",
 		"ms-vscode.cpptools-extension-pack"
 	],
-	"postCreateCommand": "${containerWorkspaceFolder}/.devcontainer/build.sh --only-native-init ${containerWorkspaceFolder}",
-	// "forwardPorts": [],
-	"mounts": [
-		"source=/dev/bus/usb,target=/dev/bus/usb,type=bind"
-		// "source=/dev,target=/dev,type=bind"
-	],
-	"runArgs": [
-		"-i",
-		// "--device=/dev/ttyACM0",
-		"--privileged",
-		"--env-file", "${localWorkspaceFolder}/.env"
-	],
-	"remoteUser": "user"
+	"postCreateCommand": "${containerWorkspaceFolder}/.devcontainer/build.sh --only-native-init ${containerWorkspaceFolder}"
 }

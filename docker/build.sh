@@ -19,7 +19,6 @@ oci_west() (
         --user user:user \
         -v "${repo}:/workspaces/${path}" \
         --workdir="/workspaces/${path}" \
-		--env-file "${repo}/.env" \
         "$tag" \
         west $@
 )
@@ -27,13 +26,11 @@ oci_west() (
 main() {
     local context="$( cd -- "$( dirname -- "$(readlink -f "${BASH_SOURCE[0]}")" )" &> /dev/null && pwd )"
     local repo="$(readlink -f "${context}/..")"
-    set -a
-    source "${repo}/.env"
-    set +a
 
     if [[ $# -gt 0 && "$1" == "--only-native-init" ]]; then
         [[ -d ".west" ]] || west init
-        west update #-f always
+        west update --narrow #-f always
+        west blobs fetch hal_espressif
         west config -l
         west zephyr-export
     else
@@ -47,7 +44,9 @@ main() {
 
         [[ -d ".west" ]] || oci_west "${tag}" "${repo}" "${path}" init
         oci_west "${tag}" "${repo}" "${path}" \
-            update #-f always
+            update --narrow #-f always
+        oci_west "${tag}" "${repo}" "${path}" \
+            blobs fetch hal_espressif
         oci_west "${tag}" "${repo}" "${path}" \
             config -l
         oci_west "${tag}" "${repo}" "${path}" \
