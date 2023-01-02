@@ -45,7 +45,7 @@ main() {
             oci_build "${tag}" "${context}"
         fi
 
-        [[ -d ".west" ]] || oci_west init -l "."
+        [[ -d ".west" ]] || oci_west "${tag}" "${repo}" "${path}" init -l "."
         oci_west "${tag}" "${repo}" "${path}" \
             update #-f always
         oci_west "${tag}" "${repo}" "${path}" \
