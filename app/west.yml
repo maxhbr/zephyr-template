@@ -7,8 +7,8 @@ manifest:
   projects:
     - name: zephyr
       remote: zephyrproject-rtos
-      revision: v3.3.0
+      revision: v3.4.0
       clone-depth: 1
       import: true
   self:
-    path: zephyr-template
+    path: app

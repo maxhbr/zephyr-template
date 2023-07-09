@@ -28,10 +28,13 @@ jobs:
           git config --global user.email "bot@maxhbr.de"
           git config --global user.name "Maxhbr Bot"
           git config --global --add safe.directory "$(readlink -f .)"
-          west init -l . || true
-          west config --global update.narrow true
-          west update
+          ./init.sh
 
       - name: build
         run: |
-          west build .
+          west build -b xiao_ble app
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: build-output
+          path: build/
