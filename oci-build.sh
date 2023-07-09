@@ -38,11 +38,12 @@ oci_west() (
 
 main() {
     local repo="$( cd -- "$( dirname -- "$(readlink -f "${BASH_SOURCE[0]}")" )" &> /dev/null && pwd )"
+    local project_name="$(basename "$repo")"
     local context="${repo}/docker"
 
     # local path="$(cat "${repo}/west.yml" | yq -r '.manifest.self.path')"
     path=app
-    local tag="maxhbr/${path}-zephyrbuilder"
+    local tag="maxhbr/${project_name}-zephyrbuilder"
 
     if [[ $# -gt 0 && "$1" == "--build" ]]; then
         shift
