@@ -1,7 +1,6 @@
-/.west/
-/bootloader/
-/modules/
-/tools/
-/zephyr/
-/build/
-_*
+*
+!.gitignore
+!init.sh
+!app
+!build
+!docker
