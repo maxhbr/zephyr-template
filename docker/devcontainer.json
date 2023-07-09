@@ -39,5 +39,5 @@
 		"ms-vscode.cpptools",
 		"ms-vscode.cpptools-extension-pack"
 	],
-	"postCreateCommand": "${containerWorkspaceFolder}/.devcontainer/build.sh --only-native-init ${containerWorkspaceFolder}"
+	"postCreateCommand": "${containerWorkspaceFolder}/init.sh"
 }
