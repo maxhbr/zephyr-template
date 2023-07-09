@@ -9,3 +9,5 @@ west update --narrow #-f always
 west blobs fetch hal_espressif
 west config -l
 west zephyr-export
+
+export ZEPHYR_BASE="${ROOT}/zephyr"
