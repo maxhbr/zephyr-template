@@ -1,6 +1,6 @@
 *
 !.gitignore
 !init.sh
-!app
-!build
-!docker
+!app/
+!build/
+!docker/
