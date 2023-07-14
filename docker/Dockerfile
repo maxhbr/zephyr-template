@@ -33,6 +33,16 @@ RUN set -x \
     ##  end nrfjprog  #########################################################
     ###########################################################################
 
+    ###########################################################################
+    ##  start TI UniFlash  ####################################################
+    && wget \
+            -nv https://dr-download.ti.com/software-development/software-programming-tool/MD-QeJBJLj8gq/8.3.0/uniflash_sl.8.3.0.4307.run \
+            -O "/opt/uniflash_sl.8.3.0.4307.run" \
+    && chmod +x "/opt/uniflash_sl.8.3.0.4307.run" \
+    ## TODO: install uniflash
+    ##  start TI UniFlash  ####################################################
+    ###########################################################################
+
     && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 
 USER "${USERNAME}"
