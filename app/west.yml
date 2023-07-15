@@ -12,7 +12,9 @@ manifest:
       revision: v3.4.0
       clone-depth: 1
       import: true
-    - name: sdk-nrf
+    - name: nrf
+      repo-path: sdk-nrf
+      path: nrf
       remote: nrfconnect
       revision: v2.4.1
       import: true
