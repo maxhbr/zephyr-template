@@ -13,6 +13,9 @@ ARG USERNAME=user
 ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 COPY library-scripts/*.sh library-scripts/*.env /tmp/library-scripts/
+
+
+
 RUN set -x \
     && apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && /bin/bash /tmp/library-scripts/common-debian.sh "${INSTALL_ZSH}" "${USERNAME}" "${USER_UID}" "${USER_GID}" "${UPGRADE_PACKAGES}" "true" "true"\
@@ -25,9 +28,25 @@ RUN set -x \
             unzip \
             udev \
             libusb-1.0-0 \
+            openocd \
+    
+    && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
 
-    ###########################################################################
-    ##  start nrfjprog  #######################################################
+###########################################################################
+##  start cc1352-flasher  #################################################
+RUN set -x \
+    && pip3 install pyserial intelhex python-magic \
+    && git clone --depth 1 https://git.beagleboard.org/beagleconnect/cc1352-flasher /opt/cc1352-flasher \
+    && ln -s /opt/cc1352-flasher/cc1352-flasher.py /usr/bin/cc1352-flasher.py \
+    && ln -s /opt/cc1352-flasher/cc1352-flasher.py /usr/bin/cc1352-flasher
+##  end cc1352-flasher  ###################################################
+###########################################################################
+
+###########################################################################
+##  start nrfjprog  #######################################################
+RUN set -x \
+    && apt-get update && export DEBIAN_FRONTEND=noninteractive \
+
     && apt-get install -y udev \
 	&& /lib/systemd/systemd-udevd --daemon manually \
 
@@ -42,25 +61,20 @@ RUN set -x \
 			-O "/tmp/JLink_Linux_x86_64.deb" \
 	&& ( dpkg -i "/tmp/JLink_Linux_x86_64.deb" || apt-get -f install -y || true ) \
 	&& rm "/tmp/JLink_Linux_x86_64.deb" \
+
+    && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
     ##  end nrfjprog  #########################################################
     ###########################################################################
 
-    ###########################################################################
-    ##  start openocd  ########################################################
-    && apt-get install -y openocd \
-    ##  start openocd  ########################################################
-    ###########################################################################
-
-    ###########################################################################
-    ##  start TI UniFlash  ####################################################
+###########################################################################
+##  start TI UniFlash  ####################################################
+RUN set -x \
     && wget \
             -nv "$UNIFLASH_SL_URL" \
             -O "/opt/uniflash_sl.run" \
-    && chmod +x "/opt/uniflash_sl.run" \
+    && chmod +x "/opt/uniflash_sl.run"
     ## TODO: install uniflash
-    ##  start TI UniFlash  ####################################################
-    ###########################################################################
-
-    && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* /tmp/library-scripts
+##  start TI UniFlash  ####################################################
+###########################################################################
 
 USER "${USERNAME}"
