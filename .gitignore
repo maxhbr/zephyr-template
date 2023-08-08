@@ -4,3 +4,4 @@
 !oci-build.sh
 !/app/*
 !/docker/*
+!/docker/software/*
