@@ -1,4 +1,4 @@
-*
+# *
 !.gitignore
 !init.sh
 !oci-build.sh
