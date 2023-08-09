@@ -1,10 +1,20 @@
 {
   description = "A very basic flake";
-  inputs.flake-utils.url = "github:numtide/flake-utils";
+  inputs= {
+    # nixpkgs.url = "github:numtide/nixpkgs-unfree";
+    flake-utils.url = "github:numtide/flake-utils";
+  };
   outputs = { self, nixpkgs, flake-utils }:
       flake-utils.lib.eachDefaultSystem
       (system:
-        let pkgs = nixpkgs.legacyPackages.${system};
+        let 
+            pkgs = import nixpkgs {
+              inherit system;
+              config = {
+                allowUnfree = true;
+                segger-jlink.acceptLicense = true;
+              };
+            };
             pp = pkgs.python3.pkgs;
             imgtool = pp.buildPythonPackage rec {
               version = "1.10.0";
@@ -142,6 +152,16 @@
               gmp.dev
 
               zephyr-sdk
+
+              nrfutil
+              # nRF-Command-Line-Tools
+              segger-jlink
+              teensy-loader-cli
+              tytools
+              stlink
+
+              picocom
+              minicom
             ];
           in {
             devShells.default = 
