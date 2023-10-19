@@ -10,16 +10,16 @@
 		"ZEPHYR_BASE": "${localWorkspaceFolder}/zephyr"
 	},
 	// "forwardPorts": [],
-	// "mounts": [
-	// 	"source=/dev/bus/usb,target=/dev/bus/usb,type=bind"
-	// 	// "source=/dev,target=/dev,type=bind"
-	// ],
-	// "runArgs": [
-	// 	"-i",
-	// 	// "--device=/dev/ttyACM0",
-	// 	// "--device=/dev/ttyUSB0",
-	// 	"--privileged"
-	// ],
+	"mounts": [
+		"source=/dev/bus/usb,target=/dev/bus/usb,type=bind"
+		// "source=/dev,target=/dev,type=bind"
+	],
+	"runArgs": [
+		"-i",
+		// "--device=/dev/ttyACM0",
+		// "--device=/dev/ttyUSB0",
+		"--privileged"
+	],
 	"remoteUser": "user",
 	"settings": {
 		"editor.formatOnSave": true,
