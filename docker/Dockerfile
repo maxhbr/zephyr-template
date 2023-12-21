@@ -36,6 +36,7 @@ RUN set -x \
  && ./install.rf-command-line-tools.sh \
  && ./install.jlink-linux.sh \
  && ./install.uniflash_sl.sh \
- && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/*
+ && apt-get autoremove -y && apt-get clean -y && rm -rf /var/lib/apt/lists/* \
+ && pyocd pack --update
 
 USER "${USERNAME}"
